@@ -3,12 +3,14 @@ __author__ = 'Christoph Jansen, HTW Berlin'
 import yaml, sys, api, os, subprocess, math
 from pipeline import PipelineHandler
 from cloud import CloudHandler
+from os.path import expanduser
 
 class ApplicationHandler:
 
-    CONFIG_PATH = 'config.yaml'
-
     def __init__(self):
+        home = expanduser("~")
+        self.CONFIG_PATH = home + '/.pipeline-scheduler/config.yaml'
+
         self.config = self.loadConfig()
         if(self.config == None):
             print 'error: could not read file ' + self.CONFIG_PATH

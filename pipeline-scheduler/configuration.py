@@ -132,12 +132,13 @@ class Configuration:
         self.OS_SECURITY_GROUP = config.get('OS_SECURITY_GROUP')
         self.OS_IP_POOL = config.get('OS_IP_POOL')
         self.OS_OPENRC_FILE = config.get('OS_OPENRC_FILE')
+        self.LOCAL_SCRIPTS_FOLDER = config.get('LOCAL_SCRIPTS_FOLDER')
         self.TIMEDIFF_CSV = config.get('TIMEDIFF_CSV')
         self.HOST = config.get('HOST')
         self.PORT = config.get('PORT')
 
     def selfCheck(self):
-        if(self.CONNECTION_RETRY_INTERVAL == None or self.MAX_CONNECTION_RETRIES == None or self.VM_SCRIPTS_FOLDER == None or self.OS_SECURITY_GROUP == None or self.VM_USER == None or self.MAX_ACTIVE_PIPELINES == None or self.VM_INSTANCE_TTL == None or self.VM_IMAGE_ID == None or self.VM_KEYPAIR_NAME == None or self.VM_PRIVATEKEY_FILE == None or self.VM_FLAVOR == None or self.API == None or self.OS_OPENRC_FILE == None or self.HOST == None or self.PORT == None):
+        if(self.LOCAL_SCRIPTS_FOLDER == None or self.CONNECTION_RETRY_INTERVAL == None or self.MAX_CONNECTION_RETRIES == None or self.VM_SCRIPTS_FOLDER == None or self.OS_SECURITY_GROUP == None or self.VM_USER == None or self.MAX_ACTIVE_PIPELINES == None or self.VM_INSTANCE_TTL == None or self.VM_IMAGE_ID == None or self.VM_KEYPAIR_NAME == None or self.VM_PRIVATEKEY_FILE == None or self.VM_FLAVOR == None or self.API == None or self.OS_OPENRC_FILE == None or self.HOST == None or self.PORT == None):
             return False
 
         return True

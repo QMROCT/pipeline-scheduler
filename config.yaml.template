@@ -14,6 +14,7 @@ API: 'nova'
 OS_SECURITY_GROUP: 'SSH_ALLOWED'
 OS_IP_POOL: null
 OS_OPENRC_FILE: '/home/vagrant/devstack/openrc'
+LOCAL_SCRIPTS_FOLDER: '/home/vagrant/scripts'
 TIMEDIFF_CSV: null
 HOST: '0.0.0.0'
 PORT: 8100

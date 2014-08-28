@@ -7,8 +7,6 @@ from time import time, sleep
 
 class CloudHandler:
 
-    LOCAL_SCRIPTS_FOLDER = "scripts"
-
     def __init__(self, applicationHandler):
         self.applicationHandler = applicationHandler
 
@@ -38,7 +36,7 @@ class CloudHandler:
         if(ssh == None):
             return None
 
-        localScript = self.LOCAL_SCRIPTS_FOLDER + '/' + pipeline.script
+        localScript = config.LOCAL_SCRIPTS_FOLDER + '/' + pipeline.script
         remoteScript = config.VM_SCRIPTS_FOLDER + '/' + pipeline.script
 
         sftp = ssh.open_sftp()

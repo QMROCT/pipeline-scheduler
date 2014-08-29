@@ -1,24 +1,25 @@
-pipeline-scheduler
-==================
+## Pipeline Scheduler
 
-Flask server to schedule and process XNAT pipelines with OpenStack
+[Flask](http://flask.pocoo.org/) server to schedule and process [XNAT](http://www.xnat.org/) pipelines with [OpenStack](http://www.openstack.org/).
 
-###install
-<pre><code>
+
+### Installation
+
+```bash
 mkdir ~/.pipeline-scheduler
 cp config.yaml.template ~/.pipeline-scheduler/config.yaml
 # edit ~/.pipeline-scheduler/config.yaml
-</code></pre>
+```
 
-###start server
-<pre><code>
+
+### Server Start
+
+```bash
 python pipeline-scheduler
-</code></pre>
-
-###config.yaml parameter documentation
-TODO
-
-###scheduler web-api documentation
-TODO
+```
 
 
+### TODO
+
+- [ ] `config.yaml` parameter documentation
+- [ ] scheduler web-api documentation

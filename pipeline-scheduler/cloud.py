@@ -108,6 +108,7 @@ class CloudHandler:
 
         ip = instance.ip
         username = config.VM_USER
+
         keyfile = config.VM_PRIVATEKEY_FILE
         keypass = config.VM_PRIVATEKEY_PASSWORD
 
@@ -124,7 +125,7 @@ class CloudHandler:
                 ready = True
             except:
                 counter += 1
-                #traceback.print_exc()
+                traceback.print_exc()
                 sleep(config.CONNECTION_RETRY_INTERVAL)
                 #print 'retry ' + str(counter)
 

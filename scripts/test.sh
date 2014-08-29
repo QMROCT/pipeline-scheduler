@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#whoami=$(whoami)
-#pwd=$(pwd)
+whoami=$(whoami)
+pwd=$(pwd)
 
-#echo "${whoami} ${pwd} $@" > ~/test.txt
+echo "${whoami} ${pwd} $@" > ~/test.txt
 sleep 10

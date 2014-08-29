@@ -3,7 +3,7 @@
 NUM_OF_TESTS=4
 
 XNAT="xnat:8080/xnat"
-GATEWAY="gateway:8100"
+GATEWAY="127.0.0.1:8100"
 SCRIPT="test.sh"
 
 session="ncrc_S01323"

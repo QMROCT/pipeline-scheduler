@@ -3,7 +3,7 @@
 #CURL_CACERT="telekomchainHTW.pem"
 XNAT="xnat:8080/xnat"
 #GATEWAY="https://qmroctgw.f4.htw-berlin.de/qmroct_pipeline_gateway/"
-GATEWAY="gateway:8100"
+GATEWAY="127.0.0.1:8100"
 #SCRIPT="qmroct.sh"
 SCRIPT="test.sh"
 

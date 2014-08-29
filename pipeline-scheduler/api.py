@@ -5,6 +5,7 @@ from novaclient.client import Client
 from cloud import Instance
 from time import sleep
 from thread import allocate_lock
+from novaclient.v1_1.servers import Server
 
 class Nova:
 
@@ -32,29 +33,49 @@ class Nova:
             nics = [{"net-id": config.VM_NETWORK_ID}]
         server = self.client.servers.create(name=name, image=config.VM_IMAGE_ID, flavor=config.VM_FLAVOR, key_name=config.VM_KEYPAIR_NAME, nics=nics)
 
-        self.lock.acquire()
-        ip = self.getFloatingIP(config.OS_IP_POOL)
-        if ip == None:
-            self.lock.release()
-            return None
-
-        ready = False
-        counter = 0
-        while not ready:
-            if(counter > config.MAX_CONNECTION_RETRIES):
-                print 'connection refused'
+        if(config.OS_USE_FLOATING_IP):
+            self.lock.acquire()
+            ip = self.getFloatingIP(config.OS_IP_POOL)
+            if ip == None:
                 self.lock.release()
                 return None
-            try:
-                server.add_floating_ip(address=ip)
-                ready = True
-            except:
+
+            ready = False
+            counter = 0
+            while not ready:
+                if(counter > config.MAX_CONNECTION_RETRIES):
+                    print 'connection refused'
+                    self.lock.release()
+                    return None
+                try:
+                    server.add_floating_ip(address=ip)
+                    ready = True
+                except:
+                    counter += 1
+                    sleep(config.CONNECTION_RETRY_INTERVAL)
+
+            self.lock.release()
+        else:
+            counter = 0
+
+            networks = None
+
+            while counter <= config.MAX_CONNECTION_RETRIES:
+                server = self.client.servers.get(server.id)
+                networks = server.networks
+                if(networks):
+                    break
+                networks = None
                 counter += 1
                 sleep(config.CONNECTION_RETRY_INTERVAL)
 
-        self.lock.release()
+            ip = networks['private'][0]
+            print ip
 
-        server.add_security_group(security_group=config.OS_SECURITY_GROUP)
+        try:
+            server.add_security_group(security_group=config.OS_SECURITY_GROUP)
+        except:
+            pass
 
         instance = Instance(server.id, name, ip, config.VM_INSTANCE_TTL, None)
 

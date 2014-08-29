@@ -12,6 +12,7 @@ VM_SCRIPTS_FOLDER: '/home/ubuntu'
 VM_NETWORK_ID: null
 API: 'nova'
 OS_SECURITY_GROUP: 'SSH_ALLOWED'
+OS_USE_FLOATING_IP: true
 OS_IP_POOL: null
 OS_OPENRC_FILE: '/home/vagrant/devstack/openrc'
 LOCAL_SCRIPTS_FOLDER: '/home/vagrant/scripts'

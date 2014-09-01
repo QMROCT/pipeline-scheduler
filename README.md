@@ -56,11 +56,25 @@ curl ${server}/pipeline
 ```bash
 # register one pipeline
 # input: dictionary
-curl -X POST -H 'Content-Type: application/json' -d '{"project":"'"${project}"'","subject":"'"${subject}"'","session":"'"${session}"'","host":"'"${host}"'","user":"'"${user}"'","pwd":"'"${pwd}"'","script":"'"${script}"'"}' "${server}/pipeline"
+curl -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"}' "${server}/pipeline"
 
 # register multiple pipelines
 # input: list of dictionaries
-curl -X POST -H 'Content-Type: application/json' -d '[{"project":"'"${project}"'","subject":"'"${subject}"'","session":"'"${session}"'","host":"'"${host}"'","user":"'"${user}"'","pwd":"'"${pwd}"'","script":"'"${script}"'"},{"project":"'"${project}"'","subject":"'"${subject}"'","session":"'"${session}"'","host":"'"${host}"'","user":"'"${user}"'","pwd":"'"${pwd}"'","script":"'"${script}"'"}]' "${server}/pipeline"
+curl -X POST -H 'Content-Type: application/json' -d '[{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"},{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"}]' "${server}/pipeline"
+```
+
+/instance GET
+```bash
+# list all active and queued virtual servers
+# input: null
+curl ${server}/instance
+```
+
+/instance DELETE
+```bash
+# delete all instances in OpenStack project, which are NOT handled by Pipeline-Scheduler, to free resources
+# input: null
+curl -X DELETE ${server}/instance
 ```
 
 ### Not yet implemented

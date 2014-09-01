@@ -11,6 +11,12 @@ cp config.yaml.template ~/.pipeline-scheduler/config.yaml
 # edit ~/.pipeline-scheduler/config.yaml
 ```
 
+### Python Dependencies
+* [Flask](http://flask.pocoo.org/)
+* [Paramiko](http://www.paramiko.org/)
+* [PyYAML](http://pyyaml.org/)
+* [NovaClient](https://github.com/openstack/python-novaclient/)
+
 
 ### Server Start
 

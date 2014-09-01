@@ -50,24 +50,40 @@ script="qmroct.sh" # script conained in LOCAL_SCRIPTS_FOLDER (see config) to be 
 # list all active and queued pipelines
 # input: null
 curl ${server}/pipeline
+
+# list one pipeline by id
+# input: dictionary with parameter id
+curl -H 'Content-Type: application/json' -d '{"id":"'${id}'"}' "${server}/pipeline"
+
+# list multiple pipelines by id
+# input: list of dictionaries with parameter id
+curl -H 'Content-Type: application/json' -d '[{"id":"'${id}'"},{"id":"'${id}'"}]' "${server}/pipeline"
 ```
 
 /pipeline PUSH
 ```bash
 # register one pipeline
-# input: dictionary
+# input: dictionary with pipeline parameters
 curl -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"}' "${server}/pipeline"
 
 # register multiple pipelines
-# input: list of dictionaries
+# input: list of dictionaries with pipeline parameters
 curl -X POST -H 'Content-Type: application/json' -d '[{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"},{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'"}]' "${server}/pipeline"
 ```
 
 /instance GET
 ```bash
-# list all active and queued virtual servers
+# list all active and queued virtual servers, which are handled by Pipeline-Scheduler
 # input: null
 curl ${server}/instance
+
+# list one instance by id
+# input: dictionary with parameter id
+curl -H 'Content-Type: application/json' -d '{"id":"'${id}'"}' "${server}/instance"
+
+# list multiple instances by id
+# input: list of dictionaries with parameter id
+curl -H 'Content-Type: application/json' -d '[{"id":"'${id}'"},{"id":"'${id}'"}]' "${server}/instance"
 ```
 
 /instance DELETE
@@ -75,6 +91,20 @@ curl ${server}/instance
 # delete all instances in OpenStack project, which are NOT handled by Pipeline-Scheduler, to free resources
 # input: null
 curl -X DELETE ${server}/instance
+```
+
+/config GET
+```bash
+# list config, which has been loaded from config.yaml
+# input: null
+curl ${server}/config
+```
+
+/config PUT
+```bash
+# update config, by reloading config.yaml
+# input: null
+curl ${server}/config
 ```
 
 ### Not yet implemented

@@ -104,7 +104,7 @@ curl ${server}/config
 ```bash
 # update config, by reloading config.yaml
 # input: null
-curl ${server}/config
+curl -X PUT ${server}/config
 ```
 
 ### Not yet implemented

@@ -56,19 +56,19 @@ Pipeline-Scheduler is controlled by sending requests to its Web-API. This Docume
 ```bash
 # definition of sample variables
 server="${flask_ip}:${flask_port}" # defined in config
-session="ncrc_S01323" # XNAT specific
-project="test" # XNAT specific
-subject="XNAT_S00013" # XNAT specific
+session="SampleSession" # XNAT specific
+project="SampleProject" # XNAT specific
+subject="SampleSubject" # XNAT specific
 host="http://${xnat_ip}:${xnat_port}/xnat/" # XNAT installation
 user="admin" # XNAT authentication
 pwd="admin" # XNAT authentication
 script="qmroct.sh" # script conained in LOCAL_SCRIPTS_FOLDER (see config) to be executed in cloud VM
-type="xnat"
+type="xnat" # XNATPipeline is one possible kind of task
 ```
 
 /tasks GET
 ```bash
-# list all active and queued tasks - XNATPipeline is one possible kind of task (parameter "type" must be set to "xnat")
+# list all active and queued tasks
 # input: null
 curl ${server}/tasks
 

@@ -24,7 +24,7 @@ cd ~/.pipeline-scheduler
 ### Server Start
 
 ```bash
-python pipeline-scheduler
+python PipelineSchedulerServer
 ```
 
 
@@ -51,7 +51,7 @@ type="xnat"
 
 /tasks GET
 ```bash
-# list all active and queued tasks
+# list all active and queued tasks - XNATPipeline is one possible kind of task (parameter "type" must be set to "xnat")
 # input: null
 curl ${server}/tasks
 

@@ -1,0 +1,5 @@
+MAX_CONNECTION_RETRIES = 100
+CONNECTION_RETRY_INTERVAL = 1
+AUTH_USER = 'ubuntu'
+self.AUTH_KEYFILE = '/home/vagrant/.ssh/id_rsa'
+self.AUTH_PASSWORD = null

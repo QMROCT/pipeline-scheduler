@@ -1,10 +1,8 @@
 #!/bin/bash
 
-#CURL_CACERT="telekomchainHTW.pem"
+#CURL_CACERT="path"
 XNAT="xnat:8080/xnat"
-#GATEWAY="https://qmroctgw.f4.htw-berlin.de/qmroct_pipeline_gateway/"
 GATEWAY="127.0.0.1:8100"
-#SCRIPT="qmroct.sh"
 SCRIPT="test.sh"
 
 # get input parameters
@@ -50,5 +48,4 @@ else
 	CURL_CACERT="--cacert ${CURL_CACERT}"
 fi
 
-curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'"${project}"'","subject":"'"${subject}"'","session":"'"${session}"'","host":"'"${XNAT}"'","user":"'"${user}"'","pwd":"'"${pwd}"'","script":"'"${SCRIPT}"'"}' "${GATEWAY}/pipeline"
-#curl ${CURL_CACERT} "gateway?&session=${session}&subject=${subject}&project=${project}&user=${user}&pwd=${pwd}&host=${HOST}"
+curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${XNAT}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${SCRIPT}'"}' "${GATEWAY}/pipeline"

@@ -1,0 +1,8 @@
+MAX_ACTIVE_TASKS: 1
+VIRTUAL_SERVER_TTL: 1
+CONNECTOR = 'nova'
+LOCAL_SCRIPTS_FOLDER = '/vagrant/pipeline-scheduler/scripts'
+self.REMOTE_BASE_FOLDER = '/home/ubuntu'
+self.TIMETEST_CSV_FILE = 'timetest.csv'
+self.HOST = '0.0.0.0'
+self.PORT = 8100

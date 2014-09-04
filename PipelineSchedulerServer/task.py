@@ -31,7 +31,7 @@ class TaskHandler:
     def releaseTask(self, task):
         self.lock.acquire()
         del self.activeTasks[task.id]
-        self.lock.acquire()
+        self.lock.release()
 
     def getTasks(self, input):
         if(input == None):

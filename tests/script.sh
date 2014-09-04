@@ -1,10 +1,7 @@
 #!/bin/bash
 
 #CURL_CACERT="path"
-XNAT="xnat:8080/xnat"
 GATEWAY="127.0.0.1:8100"
-SCRIPT="test.sh"
-TYPE="xnat"
 
 # get input parameters
 while [ $# -gt 1 ]
@@ -35,6 +32,15 @@ do
 	shift 2
 	;;
 	-host)
+	host="$2"
+	shift 2
+	;;
+	-script)
+	script="$2"
+	shift 2
+	;;
+	-type)
+	type="$2"
 	shift 2
 	;;
 	*)
@@ -49,4 +55,4 @@ else
 	CURL_CACERT="--cacert ${CURL_CACERT}"
 fi
 
-curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${XNAT}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${SCRIPT}'","type":"'${TYPE}'"}' "${GATEWAY}/tasks"
+curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'","type":"'${type}'"}' "${GATEWAY}/tasks"

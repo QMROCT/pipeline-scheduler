@@ -28,7 +28,7 @@ class XNATPipeline(ATask):
         return result
 
     def getCommand(self, remoteBaseFolder):
-        return remoteBaseFolder + '/' + self.script + ' -project ' + self.project + ' -subject ' + self.subject + ' -session ' + self.session + ' -host ' + self.host + ' -user ' + self.user + ' -pwd ' + self.pwd
+        return 'bash ' + remoteBaseFolder + '/' + self.script + ' -project ' + self.project + ' -subject ' + self.subject + ' -session ' + self.session + ' -host ' + self.host + ' -user ' + self.user + ' -pwd ' + self.pwd
 
     def __dict__(self):
         return {'project': self.project, 'subject': self.subject, 'session': self.session, 'host': self.host, 'user': self.user, 'pwd': '***', 'id': self.id, 'timestamp': self.timestamp}

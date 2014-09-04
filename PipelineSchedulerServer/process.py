@@ -92,6 +92,15 @@ class ProcessHandler:
 
     def _execute(self, task):
         print 'start task: ' + task.id
+
+        localScriptsFolder = self.applicationConfig.LOCAL_SCRIPTS_FOLDER
+        remoteBaseFolder = self.applicationConfig.REMOTE_BASE_FOLDER
+
+        files = task.getFiles()
+        command = task.getCommand(remoteBaseFolder)
+
+        print 'command: ' + command
+
         ts = TimeStopper(initialTimestamp=task.timestamp)
 
         ts.stop() # serverStart
@@ -105,12 +114,6 @@ class ProcessHandler:
             return False
 
         ts.stop() # serverUp
-
-        localScriptsFolder = self.applicationConfig.LOCAL_SCRIPTS_FOLDER
-        remoteBaseFolder = self.applicationConfig.REMOTE_BASE_FOLDER
-
-        files = task.getFiles()
-        command = task.getCommand(remoteBaseFolder)
 
         self.ssh.uploadFiles(sshClient, files, localScriptsFolder, remoteBaseFolder)
         self.ssh.executeCommand(sshClient, command)

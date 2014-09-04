@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [[ ! -f "install.sh" ]]; then
 	echo "ERROR: run install.sh from directory containing it"
 	exit 1

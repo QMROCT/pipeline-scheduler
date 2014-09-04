@@ -15,6 +15,8 @@ class VirtualServer:
 
 class TimeStopper:
 
+    numOfStops = 3 # serverStart, serverUp, processingDone
+
     def __init__(self, initialTimestamp):
         self.initialTimestamp = initialTimestamp
         self.stopped = []
@@ -26,7 +28,7 @@ class TimeStopper:
         self.stopped.append(diff)
 
     def writeDataToCSV(self, filePath):
-        if(len(self.stopped) < 3):
+        if(len(self.stopped) < self.numOfStops):
             return
         if(filePath == None):
             return
@@ -35,7 +37,7 @@ class TimeStopper:
 
         s = '\n'
         i = 0
-        while i < 3:
+        while i < self.numOfStops:
             s += str(self.stopped[i]) + ';'
             i += 1
         s += str(self._calculateTotal())
@@ -52,4 +54,3 @@ class TimeStopper:
         s = 'serverStart;serverUp;processingDone,total'
         with open(filePath, 'w') as f:
             f.write(s)
-

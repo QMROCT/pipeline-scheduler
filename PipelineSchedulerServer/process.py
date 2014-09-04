@@ -3,6 +3,7 @@ __author__ = 'Christoph Jansen, HTW Berlin'
 import types
 from threading import Thread
 from tasks.xnat import XNATPipeline
+from model import TimeStopper
 
 class ProcessHandler:
 
@@ -14,7 +15,7 @@ class ProcessHandler:
         self.cloudHandler = cloudHandler
         self.ssh = ssh
 
-    def postTask(self, input):
+    def postTasks(self, input):
         if(input == None):
             return {'request': 'error', 'content': 'input is missing'}
         elif type(input) is types.DictType:
@@ -49,7 +50,7 @@ class ProcessHandler:
         self.taskHandler.registerTask(task)
         t = Thread(target=self._processTasks)
         t.start()
-        return {'status':'queued', 'task': task.__dict__}
+        return {'status':'queued', 'task': task.__dict__()}
 
     def _processTasks(self):
         while(self._processTask()):
@@ -57,11 +58,12 @@ class ProcessHandler:
 
     def _processTask(self):
         task = self.taskHandler.nextTaskForProcessing()
+        print str(task.__dict__())
 
         if(task == None):
             return False
 
-        if(self._executeTask(task)):
+        if(self._execute(task)):
             self.taskHandler.releaseTask(task)
         else:
             self.taskHandler.releaseTask(task)
@@ -82,14 +84,17 @@ class ProcessHandler:
         if(taskClass == None):
             print t + ' is not a possible task class'
             return None
-        task = taskClass.__init__(input)
-        if(not taskClass.check()):
+        task = taskClass(input)
+        if(not task.check()):
             return None
         return task
 
 
-    def _executeTask(self, task):
+    def _execute(self, task):
         print 'start task: ' + task.id
+        ts = TimeStopper(initialTimestamp=task.timestamp)
+
+        ts.stop() # serverStart
 
         server = self.cloudHandler.retrieveServer()
         if(server == None):
@@ -98,6 +103,8 @@ class ProcessHandler:
         sshClient = self.ssh.connect(server.ip)
         if(sshClient == None):
             return False
+
+        ts.stop() # serverUp
 
         localScriptsFolder = self.applicationConfig.LOCAL_SCRIPTS_FOLDER
         remoteBaseFolder = self.applicationConfig.REMOTE_BASE_FOLDER
@@ -108,9 +115,11 @@ class ProcessHandler:
         self.ssh.uploadFiles(sshClient, files, localScriptsFolder, remoteBaseFolder)
         self.ssh.executeCommand(sshClient, command)
 
-        self.ssh.disconnect()
+        ts.stop() # processingDone
 
+        self.ssh.disconnect(sshClient)
         self.cloudHandler.releaseServer(server)
 
+        ts.writeDataToCSV(self.applicationConfig.TIMETEST_CSV_FILE)
         print 'end task: ' + task.id
         return True

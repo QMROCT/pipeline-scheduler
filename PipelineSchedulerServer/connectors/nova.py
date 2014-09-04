@@ -42,6 +42,7 @@ class Nova(ACloudConnector):
             if(v[-1:] == '\n'):
                 credentials[k] = v[:-1]
 
+        print 'nova credentials: ' + str(credentials)
         return credentials
 
     def check(self):
@@ -61,11 +62,11 @@ class Nova(ACloudConnector):
         nics = None
         if(self.novaConfig.NETWORK_ID != None):
             nics = [{"net-id": self.novaConfig.NETWORK_ID}]
-        server = self.client.servers.create(name=name, image=self.novaConfig.IMAGE_ID, flavor=self.novaConfig.FLAVOR, key_name=self.novaConfig.KEYNAME, nics=nics)
+        server = self.client.servers.create(name=name, image=self.novaConfig.IMAGE_ID, flavor=self.novaConfig.FLAVOR, key_name=self.novaConfig.AUTH_KEYNAME, nics=nics)
 
         if(self.novaConfig.USE_FLOATING_IP):
             self.lock.acquire()
-            ip = self.getFloatingIP(self.novaConfig.IP_POOL)
+            ip = self._getFloatingIP()
             if ip == None:
                 self.lock.release()
                 return None
@@ -111,11 +112,7 @@ class Nova(ACloudConnector):
 
         return virtualServer
 
-    def destroyServer(self, server):
-        if type(server) is types.str:
-            id = server
-        else:
-            id = str(server.id)
+    def destroyServer(self, id):
         try:
             self.client.servers.delete(id)
         except:
@@ -124,7 +121,7 @@ class Nova(ACloudConnector):
 
         return True
 
-    def listAllServerIDs(self, instances):
+    def listAllServerIDs(self):
         result = []
 
         try:
@@ -165,8 +162,8 @@ class Nova(ACloudConnector):
     class NovaConfiguration:
         def __init__(self):
             parameters = loadConfigurationFile('nova')
-            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', default=100)
-            self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', default=5)
+            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 100)
+            self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', 5)
             self.FLAVOR = parameters.get('FLAVOR')
             self.AUTH_KEYNAME = parameters.get('AUTH_KEYNAME')
             self.SECURITY_GROUP = parameters.get('SECURITY_GROUP')
@@ -186,9 +183,6 @@ class Nova(ACloudConnector):
                 return False
             if(self.USE_FLOATING_IP == None):
                 print message + 'USE_FLOATING_IP'
-                return False
-            if(self.NETWORK_ID == None):
-                print message + 'NETWORK_ID'
                 return False
             if(self.CREDENTIALS_FILE == None):
                 print message + 'CREDENTIALS_FILE'

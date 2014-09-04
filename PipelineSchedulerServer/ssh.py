@@ -57,8 +57,8 @@ class SSH:
     class SSHConfiguration:
         def __init__(self):
             parameters = loadConfigurationFile('ssh')
-            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', default=100)
-            self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', default=5)
+            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 100)
+            self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', 5)
             self.AUTH_USER = parameters.get('AUTH_USER')
             self.AUTH_KEYFILE = parameters.get('AUTH_KEYFILE')
             self.AUTH_PASSWORD = parameters.get('AUTH_PASSWORD')
@@ -71,3 +71,4 @@ class SSH:
             if(self.AUTH_KEYFILE == None and self.AUTH_PASSWORD == None):
                 print message + 'either AUTH_KEYFILE or AUTH_PASSWORD'
                 return False
+            return True

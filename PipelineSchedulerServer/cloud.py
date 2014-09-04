@@ -54,9 +54,9 @@ class CloudHandler:
         return server
 
     def releaseServer(self, server):
-        server.timeToLive = server.timeToLive - 1
-        if(server.timeToLive < 1):
-            self.connector.deleteServer(server)
+        server.ttl = server.ttl - 1
+        if(server.ttl < 1):
+            self.connector.destroyServer(server.id)
             self.lock.acquire
             del self.activeServers[server.id]
             self.lock.release
@@ -66,7 +66,7 @@ class CloudHandler:
             del self.activeServers[server.id]
             self.lock.release
 
-    def getServer(self, input):
+    def getServers(self, input):
         if(input == None):
             return self._listServers()
         elif type(input) is types.ListType:

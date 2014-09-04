@@ -15,15 +15,15 @@ class ApplicationController:
 
     def __init__(self):
         applicationConfig = self.ApplicationConfiguration()
-        if(not self.applicationConfig.check()):
+        if(not applicationConfig.check()):
             sys.exit(1)
 
         connectorClass = self.connectors.get(applicationConfig.CONNECTOR)
         if(connectorClass == None):
-            print self.applicationConfig.CONNECTOR + ' is not a possible connector class'
+            print applicationConfig.CONNECTOR + ' is not a possible connector class'
             sys.exit(1)
 
-        connector = connectorClass.__init__(applicationConfig=applicationConfig)
+        connector = connectorClass(applicationConfig)
         if(not connector.check()):
             sys.exit(1)
 
@@ -35,6 +35,9 @@ class ApplicationController:
         self.taskHandler = TaskHandler(applicationConfig=applicationConfig)
         self.cloudHandler = CloudHandler(applicationConfig=applicationConfig, connector=connector)
         self.processHandler = ProcessHandler(applicationConfig=applicationConfig, taskHandler=self.taskHandler, cloudHandler=self.cloudHandler, ssh=ssh)
+
+        # remove existing virtual servers
+        self.cloudHandler.deleteServersUntracked()
 
     def getConfig(self):
         return {'request': 'success', 'content': [self.applicationConfig.__dict__, self.processHandler.ssh.sshConfig.__dict__, self.cloudHandler.connector.getConfig()]}
@@ -75,9 +78,9 @@ class ApplicationController:
     class ApplicationConfiguration:
         def __init__(self):
             parameters = loadConfigurationFile('application')
-            self.MAX_ACTIVE_TASKS = parameters.get('MAX_ACTIVE_TASKS', default=1)
-            self.VIRTUAL_SERVER_TTL = parameters.get('VIRTUAL_SERVER_TTL', default=1)
-            self.CONNECTOR = parameters.get('CONNECTOR', default='nova')
+            self.MAX_ACTIVE_TASKS = parameters.get('MAX_ACTIVE_TASKS', 1)
+            self.VIRTUAL_SERVER_TTL = parameters.get('VIRTUAL_SERVER_TTL', 1)
+            self.CONNECTOR = parameters.get('CONNECTOR', 'nova')
             self.LOCAL_SCRIPTS_FOLDER = parameters.get('LOCAL_SCRIPTS_FOLDER')
             self.REMOTE_BASE_FOLDER = parameters.get('REMOTE_BASE_FOLDER')
             self.TIMETEST_CSV_FILE = parameters.get('TIMETEST_CSV_FILE')
@@ -98,3 +101,4 @@ class ApplicationController:
             if(self.PORT == None):
                 print message + 'PORT'
                 return False
+            return True

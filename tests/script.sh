@@ -4,6 +4,7 @@
 XNAT="xnat:8080/xnat"
 GATEWAY="127.0.0.1:8100"
 SCRIPT="test.sh"
+TYPE="xnat"
 
 # get input parameters
 while [ $# -gt 1 ]
@@ -48,4 +49,4 @@ else
 	CURL_CACERT="--cacert ${CURL_CACERT}"
 fi
 
-curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${XNAT}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${SCRIPT}'"}' "${GATEWAY}/pipeline"
+curl ${CURL_CACERT} -X POST -H 'Content-Type: application/json' -d '{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${XNAT}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${SCRIPT}'","type":"'${TYPE}'"}' "${GATEWAY}/tasks"

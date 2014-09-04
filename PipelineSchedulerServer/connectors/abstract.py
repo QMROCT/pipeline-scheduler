@@ -2,7 +2,8 @@ __author__ = 'Christoph Jansen, HTW Berlin'
 
 import abc
 
-class ACloudConnector(metaclass=abc.ABCMeta):
+class ACloudConnector():
+    __metaclass__=abc.ABCMeta
 
     @abc.abstractmethod
     def createServer(self):
@@ -10,12 +11,12 @@ class ACloudConnector(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def destroyServer(self, virtualServer):
+    def destroyServer(self, id):
         """destroy a virtual server"""
         pass
 
     @abc.abstractmethod
-    def listAllServerIDs(self, virtualServer):
+    def listAllServerIDs(self):
         """list IDs of all a virtual servers running in the cloud"""
         pass
 

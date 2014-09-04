@@ -13,25 +13,43 @@ class VirtualServer:
         self.ip = ip
         self.ttl = ttl
 
-class TimeTest:
+class TimeStopper:
 
-    def __init__(self, instanceStart=None, instanceUp=None, processingStart=None, processingDone=None):
-        self.instanceStart = instanceStart
-        self.instanceUp = instanceUp
-        self.processingStart = processingStart
-        self.processingDone = processingDone
+    def __init__(self, initialTimestamp):
+        self.initialTimestamp = initialTimestamp
+        self.stopped = []
+
+    def stop(self):
+        diff = time() - self.initialTimestamp
+        for val in self.stopped:
+            diff -= val
+        self.stopped.append(diff)
 
     def writeDataToCSV(self, filePath):
+        if(len(self.stopped) < 3):
+            return
         if(filePath == None):
             return
         if(not os.path.isfile(filePath)):
             self._initializeCSV(filePath)
-        s = '\n' + str(self.instanceStart) + ';' + str(self.instanceUp) + ';' + str(self.processingStart) + ';' + str(self.processingDone)
+
+        s = '\n'
+        i = 0
+        while i < 3:
+            s += str(self.stopped[i]) + ';'
+            i += 1
+        s += str(self._calculateTotal())
         with open(filePath, 'a') as f:
             f.write(s)
 
+    def _calculateTotal(self):
+        result = 0
+        for val in self.stopped:
+            result += val
+        return result
+
     def _initializeCSV(self, filePath):
-        s = 'instanceStart;instanceUp;processingStart;processingDone'
+        s = 'serverStart;serverUp;processingDone,total'
         with open(filePath, 'w') as f:
             f.write(s)
 

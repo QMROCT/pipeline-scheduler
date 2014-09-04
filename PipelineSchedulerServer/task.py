@@ -13,28 +13,27 @@ class TaskHandler:
     def __init__(self, applicationConfig):
         self.applicationConfig = applicationConfig
 
-    def registerTasks(self, tasks):
+    def registerTask(self, task):
         self.lock.acquire()
-        for task in tasks:
-            self.queuedTasks.put(task)
+        self.queuedTasks.put(task)
         self.lock.release()
 
     def nextTaskForProcessing(self):
         self.lock.acquire()
-        if (len(self.activeTasks) >= self.applicationConfig.MAX_ACTIVE_PIPELINES or self.queuedTasks.empty()):
+        if (len(self.activeTasks) >= self.applicationConfig.MAX_ACTIVE_TASKS or self.queuedTasks.empty()):
             self.lock.release()
             return None
         task = self.queuedTasks.get()
         self.activeTasks[task.id] = task
         self.lock.release()
-        return self.queuedTasks.get()
+        return task
 
     def releaseTask(self, task):
         self.lock.acquire()
         del self.activeTasks[task.id]
         self.lock.acquire()
 
-    def getTask(self, input):
+    def getTasks(self, input):
         if(input == None):
             return self._listTasks()
         elif type(input) is types.ListType:
@@ -46,10 +45,10 @@ class TaskHandler:
         self.lock.acquire()
         active = []
         for k, v in self.activeTasks.items():
-            active.append(v.__dict__)
+            active.append(v.__dict__())
         queued = []
         for i in list(self.queuedTasks.queue):
-            queued.append(i.__dict__)
+            queued.append(i.__dict__())
         self.lock.release()
         return {'request': 'success', 'content': {'active': active, 'queued': queued}}
 
@@ -67,12 +66,12 @@ class TaskHandler:
         for k, v in self.activeTasks.items():
             if k == id:
                 self.lock.release()
-                return {'status': 'active', 'pipeline': v.__dict__}
+                return {'status': 'active', 'pipeline': v.__dict__()}
 
         for i in list(self.queuedTasks.queue):
             if i.id == id:
                 self.lock.release()
-                return {'status': 'queued', 'pipeline': i.__dict__}
+                return {'status': 'queued', 'pipeline': i.__dict__()}
 
         self.lock.release()
         return None

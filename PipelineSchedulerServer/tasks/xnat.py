@@ -5,7 +5,7 @@ from abstract import ATask
 
 class XNATPipeline(ATask):
 
-    def __init__(self, **parameters):
+    def __init__(self, parameters):
         self.project = parameters.get('project')
         self.subject = parameters.get('subject')
         self.session = parameters.get('session')
@@ -17,7 +17,7 @@ class XNATPipeline(ATask):
 
     def check(self):
         if(self.project == None or self.subject == None or self.session == None or self.host == None or self.user == None or self.pwd == None or self.script == None):
-            print ('missing parameter in XNATPipeline')
+            print 'missing parameter in XNATPipeline'
             return False
         return True
 

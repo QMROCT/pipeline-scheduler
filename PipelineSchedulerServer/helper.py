@@ -4,7 +4,10 @@ from os.path import expanduser
 import yaml, subprocess, os
 
 def loadConfigurationFile(name):
-    configPath = expanduser("~") + '/.pipeline-scheduler/' + name + '.yaml'
+    home = expanduser("~")
+    if home[-1:] == '\n':
+        home = home[:-1]
+    configPath = home + '/.pipeline-scheduler/' + name + '.yaml'
 
     try:
         stream = open(configPath, 'r')
@@ -14,7 +17,7 @@ def loadConfigurationFile(name):
         print 'could not load ' + configPath
         return {}
 
-    print name + '.config: ' + doc
+    print name + '.config: ' + str(doc)
 
     return doc
 

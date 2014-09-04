@@ -10,7 +10,7 @@ git clone https://github.com/QMROCT/pipeline-scheduler
 cd pipeline-scheduler
 bash install.sh
 cd ~/.pipeline-scheduler
-# edit all configuration files with .yaml extension to fit your installation
+# edit all configuration files with .yaml extension in this directory to fit your installation
 # install all python package dependencies by hand
 ```
 

@@ -10,8 +10,9 @@ git clone https://github.com/QMROCT/pipeline-scheduler
 cd pipeline-scheduler
 bash install.sh
 cd ~/.pipeline-scheduler
-# edit all configuration files with .yaml extension to fit your installation
+# edit all configuration files with .yaml extension in this directory to fit your installation
 # install all python package dependencies by hand
+# see documentation for more information
 ```
 
 ### Python Dependencies
@@ -28,9 +29,25 @@ python PipelineSchedulerServer
 ```
 
 
-### Parameter Documentation: config.yaml
+### Parameter configuration for .yaml files
 
-TODO
+application.yaml
+
+```yaml
+Documentation: 'TODO'
+```
+
+ssh.yaml
+
+```yaml
+Documentation: 'TODO'
+```
+
+nova.yaml
+
+```yaml
+Documentation: 'TODO'
+```
 
 ### Pipeline-Scheduler Web-API Documentation
 
@@ -105,6 +122,7 @@ curl -X PUT ${server}/config
 
 ### Not yet implemented
 
+* Authentication token
 * Advanced error handling
 * Logging
 * Source code documentation

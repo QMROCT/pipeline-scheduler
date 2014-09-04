@@ -1,6 +1,8 @@
 __author__ = 'Christoph Jansen, HTW Berlin'#
 
 import types
+from uuid import uuid4
+from time import time
 from abstract import ATask
 
 class XNATPipeline(ATask):
@@ -14,6 +16,8 @@ class XNATPipeline(ATask):
         self.pwd = parameters.get('pwd')
         self.files = parameters.get('files')
         self.script = parameters.get('script')
+        self.id = str(uuid4())
+        self.timestamp = time()
 
     def check(self):
         if(self.project == None or self.subject == None or self.session == None or self.host == None or self.user == None or self.pwd == None or self.script == None):

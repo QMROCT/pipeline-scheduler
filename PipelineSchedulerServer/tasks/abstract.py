@@ -1,14 +1,9 @@
 __author__ = 'Christoph Jansen, HTW Berlin'
 
 import abc
-from uuid import uuid4
-from time import time
 
 class ATask():
     __metaclass__=abc.ABCMeta
-
-    id = str(uuid4())
-    timestamp = time()
 
     @abc.abstractmethod
     def getFiles(self, remoteBaseFolder):

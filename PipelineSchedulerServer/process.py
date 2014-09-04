@@ -58,7 +58,6 @@ class ProcessHandler:
 
     def _processTask(self):
         task = self.taskHandler.nextTaskForProcessing()
-        print str(task.__dict__())
 
         if(task == None):
             return False
@@ -98,8 +97,6 @@ class ProcessHandler:
 
         files = task.getFiles()
         command = task.getCommand(remoteBaseFolder)
-
-        print 'command: ' + command
 
         ts = TimeStopper(initialTimestamp=task.timestamp)
 

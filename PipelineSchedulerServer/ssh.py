@@ -57,7 +57,7 @@ class SSH:
     class SSHConfiguration:
         def __init__(self):
             parameters = loadConfigurationFile('ssh')
-            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 100)
+            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 1000)
             self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', 5)
             self.AUTH_USER = parameters.get('AUTH_USER')
             self.AUTH_KEYFILE = parameters.get('AUTH_KEYFILE')

@@ -103,10 +103,11 @@ class Nova(ACloudConnector):
             ip = networks['private'][0]
             print ip
 
-        try:
-            server.add_security_group(security_group=self.novaConfig.SECURITY_GROUP)
-        except:
-            print 'could not add security group ' + self.novaConfig.SECURITY_GROUP
+        if self.novaConfig.SECURITY_GROUP != None:
+            try:
+                server.add_security_group(security_group=self.novaConfig.SECURITY_GROUP)
+            except:
+                print 'could not add security group ' + self.novaConfig.SECURITY_GROUP
 
         virtualServer = VirtualServer(id=server.id, name=name, ip=ip, ttl=self.applicationConfig.VIRTUAL_SERVER_TTL)
 
@@ -162,12 +163,12 @@ class Nova(ACloudConnector):
     class NovaConfiguration:
         def __init__(self):
             parameters = loadConfigurationFile('nova')
-            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 100)
+            self.MAX_CONNECTION_RETRIES = parameters.get('MAX_CONNECTION_RETRIES', 1000)
             self.CONNECTION_RETRY_INTERVAL = parameters.get('CONNECTION_RETRY_INTERVAL', 5)
             self.FLAVOR = parameters.get('FLAVOR')
             self.AUTH_KEYNAME = parameters.get('AUTH_KEYNAME')
             self.SECURITY_GROUP = parameters.get('SECURITY_GROUP')
-            self.USE_FLOATING_IP = parameters.get('USE_FLOATING_IP')
+            self.USE_FLOATING_IP = parameters.get('USE_FLOATING_IP', False)
             self.IP_POOL = parameters.get('IP_POOL')
             self.NETWORK_ID = parameters.get('NETWORK_ID')
             self.CREDENTIALS_FILE = parameters.get('CREDENTIALS_FILE')
@@ -177,12 +178,6 @@ class Nova(ACloudConnector):
             message = 'missing parameter in nova.yaml: '
             if(self.FLAVOR == None):
                 print message + 'FLAVOR'
-                return False
-            if(self.SECURITY_GROUP == None):
-                print message + 'SECURITY_GROUP'
-                return False
-            if(self.USE_FLOATING_IP == None):
-                print message + 'USE_FLOATING_IP'
                 return False
             if(self.CREDENTIALS_FILE == None):
                 print message + 'CREDENTIALS_FILE'

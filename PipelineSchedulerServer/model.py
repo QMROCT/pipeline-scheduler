@@ -51,6 +51,6 @@ class TimeStopper:
         return result
 
     def _initializeCSV(self, filePath):
-        s = 'serverStart;serverUp;processingDone,total'
+        s = 'serverStart;serverUp;processingDone;total'
         with open(filePath, 'w') as f:
             f.write(s)

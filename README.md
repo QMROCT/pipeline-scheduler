@@ -31,6 +31,7 @@ cd ~/.pipeline-scheduler
 ### Server Start
 
 ```bash
+cd pipeline-scheduler
 python PipelineSchedulerServer
 ```
 

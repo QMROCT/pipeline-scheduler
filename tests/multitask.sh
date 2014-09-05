@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NUM_OF_TESTS=20
+NUM_OF_TASKS=10
 GATEWAY="127.0.0.1:8100"
 
 session="SampleSession"
@@ -20,9 +20,9 @@ fi
 
 p='{"project":"'${project}'","subject":"'${subject}'","session":"'${session}'","host":"'${host}'","user":"'${user}'","pwd":"'${pwd}'","script":"'${script}'","type":"'${type}'"}'
 list=[
-for i in $(seq 1 1 ${NUM_OF_TESTS}); do
+for i in $(seq 1 1 ${NUM_OF_TASKS}); do
 	list=${list}${p}
-	if [ ${i} -ne ${NUM_OF_TESTS} ]; then
+	if [ ${i} -ne ${NUM_OF_TASKS} ]; then
 		list=${list},
 	fi
 done

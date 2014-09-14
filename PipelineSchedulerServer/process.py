@@ -4,6 +4,7 @@ import types
 from threading import Thread
 from tasks.xnat import XNATPipeline
 from model import TimeStopper
+from time import sleep
 
 class ProcessHandler:
 
@@ -66,7 +67,7 @@ class ProcessHandler:
             self.taskHandler.releaseTask(task)
         else:
             self.taskHandler.releaseTask(task)
-            # maybe enqueue again
+            self.taskHandler.registerTask(task)
             return False
 
         return True
@@ -108,6 +109,8 @@ class ProcessHandler:
 
         sshClient = self.ssh.connect(server.ip)
         if(sshClient == None):
+            server.ttl = 1
+            self.cloudHandler.releaseServer(server)
             return False
 
         ts.stop() # serverUp

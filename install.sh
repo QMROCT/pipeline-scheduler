@@ -32,4 +32,7 @@ done
 echo "PYTHONPATH=\"\${PYTHONPATH}:${SRC}:${SRC}/PipelineSchedulerServer\"" >> ~/.bashrc
 echo "export PYTHONPATH" >> ~/.bashrc
 
+echo "PYTHONPATH=\"\${PYTHONPATH}:${SRC}:${SRC}/PipelineSchedulerServer\"" >> ~/.profile
+echo "export PYTHONPATH" >> ~/.profile
+
 source ~/.bashrc

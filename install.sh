@@ -29,7 +29,7 @@ for file in *.yaml.template; do
 done
 
 # add pipeline-scheduler to PYTHONPATH
-echo "PYTHONPATH=\"\${PYTHONPATH}:${SRC}/PipelineSchedulerServer\"" >> ~/.bashrc
+echo "PYTHONPATH=\"\${PYTHONPATH}:${SRC}:${SRC}/PipelineSchedulerServer\"" >> ~/.bashrc
 echo "export PYTHONPATH" >> ~/.bashrc
 
 source ~/.bashrc

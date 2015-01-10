@@ -61,12 +61,12 @@ class TimeLogger:
         self.data = '\n'
 
     def _initializeCSV(self, filePath):
-        s = 'server_start;script_upload;script_start;dicom_download_start;algo1_processing_start;algo1_upload_start;algo2_processing_start;algo2_upload_start;algo3_processing_start;algo3_uload_start;script_stop'
+        s = 'server_start;script_upload;script_start;dicom_download_start;algo1_processing_start;algo1_upload_start;algo2_processing_start;algo2_upload_start;algo3_processing_start;algo3_upload_start;script_stop'
         with open(filePath, 'w') as f:
             f.write(s)
 
     def appendData(self, time):
-        self.data += str(time) + ' '
+        self.data += str(time) + ';'
 
     def writeDataToCSV(self, filePath):
         if(filePath == None):

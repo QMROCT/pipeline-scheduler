@@ -143,15 +143,16 @@ algorithms=$(find "${ASSETS_DIR}/executables" -type f -name "*.properties")
 # execute all algorithms with downloaded scans
 for i in ${algorithms}; do
 
-    TIME=$(date +%s)
-    LOG="${LOG} ${TIME}"
-
 	valid=true
 	algo_name=$(basename ${i} | sed 's/.\///' | awk 'BEGIN {FS="." } {print $1}')
 
 	if [ ${algo_name} == "default" ]; then
 		continue
 	fi
+
+	TIME=$(date +%s)
+    LOG="${LOG};${TIME}"
+
 	algo_version=$(cat ${i} | grep "version" | awk 'BEGIN {FS="=" } {print $2}')
 	if [ -z ${algo_version} ]; then
 		continue
@@ -197,7 +198,7 @@ for i in ${algorithms}; do
 	cd ${WORK_DIR}
 
     TIME=$(date +%s)
-    LOG="${LOG} ${TIME}"
+    LOG="${LOG};${TIME}"
 
 	if [ -f ${algo_dcm} ]; then
 

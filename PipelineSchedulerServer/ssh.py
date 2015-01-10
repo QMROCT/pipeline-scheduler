@@ -50,7 +50,7 @@ class SSH:
         stdin, stdout, sterr = client.exec_command(command)
         channel = stdout.channel
         status = channel.recv_exit_status()
-        return stdout
+        return stdout.readlines()
 
     def disconnect(self, client):
         client.close()

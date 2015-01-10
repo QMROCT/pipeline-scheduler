@@ -250,7 +250,7 @@ for i in ${algorithms}; do
 
 done
 
-echo $LOG
+echo $LOG >&2
 
 cd
 rm -r ${WORK_DIR}

@@ -121,7 +121,7 @@ class ProcessHandler:
 
         output = self.ssh.executeCommand(sshClient, command)
 
-        tl.appendData(output) # bash_log
+        tl.appendData(self._normalizeBashLog(output)) # bash_log
 
         #tl.appendData(time()) # script_done
 
@@ -134,6 +134,7 @@ class ProcessHandler:
 
     def _normalizeBashLog(self, log):
         for s in log:
+            s = s.encode("ascii")
             s = str(s)
-            print s
-            return 'x'
+            if s.find('OUTPUTMARKER') >= 0:
+                return s

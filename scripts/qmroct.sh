@@ -88,9 +88,8 @@ cd ${session_folder}
 # get scan IDs from xnat image session
 echo ${XNAT_CACERT_FILE}
 
-LOG=""
 TIME=$(date +%s)
-LOG="${LOG} ${TIME}"
+LOG="${TIME}"
 
 curl ${XNAT_CACERT_FILE} -u ${user}:${pwd} "${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/scans?format=csv" > "scans.info"
 opt_scan=$(cat "scans.info" | grep "optScanData" | awk 'BEGIN {FS="," }{print $2}' | sed 's/"//; s/"//')
@@ -254,7 +253,7 @@ for i in ${algorithms}; do
 
 done
 
-echo "OUTPUTMARKER${LOG}OUTPUTMARKER"
+echo "OUTPUTMARKER ${LOG} OUTPUTMARKER"
 
 cd
 rm -r ${WORK_DIR}

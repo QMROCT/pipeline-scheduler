@@ -135,5 +135,5 @@ class ProcessHandler:
     def _normalizeBashLog(self, log):
         for s in log:
             s = str(s)
-            if s.find('OUTPUTMARKER') >= 0:
-                return s.split()[1]
+            print s
+            return 'x'

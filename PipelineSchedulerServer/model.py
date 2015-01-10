@@ -54,3 +54,25 @@ class TimeStopper:
         s = 'serverStart;serverUp;processingDone;total'
         with open(filePath, 'w') as f:
             f.write(s)
+
+class TimeLogger:
+
+    def __init__(self):
+        self.data = ""
+
+    def _initializeCSV(self, filePath):
+        s = 'server_start;script_upload;script_start;dicom_download_start;algo1_processing_start;algo1_upload_start;algo2_processing_start;algo2_upload_start;algo3_processing_start;algo3_uload_start;script_stop'
+        with open(filePath, 'w') as f:
+            f.write(s)
+
+    def appendData(self, time):
+        self.data += time + " "
+
+    def writeDataToCSV(self, filePath):
+        if(filePath == None):
+            return
+        if(not os.path.isfile(filePath)):
+            self._initializeCSV(filePath)
+        with open(filePath, 'a') as f:
+            f.write(self.data)
+

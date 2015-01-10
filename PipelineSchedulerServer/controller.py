@@ -37,7 +37,7 @@ class ApplicationController:
         self.processHandler = ProcessHandler(applicationConfig=applicationConfig, taskHandler=self.taskHandler, cloudHandler=self.cloudHandler, ssh=ssh)
 
         # remove existing virtual servers
-        self.cloudHandler.deleteServersUntracked()
+        # self.cloudHandler.deleteServersUntracked()
 
     def getConfig(self):
         return {'request': 'success', 'content': [self.applicationConfig.__dict__, self.processHandler.ssh.sshConfig.__dict__, self.cloudHandler.connector.getConfig()]}

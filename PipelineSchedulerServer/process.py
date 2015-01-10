@@ -3,8 +3,8 @@ __author__ = 'Christoph Jansen, HTW Berlin'
 import types
 from threading import Thread
 from tasks.xnat import XNATPipeline
-from model import TimeStopper
-from time import sleep
+from model import TimeLogger
+from time import time
 
 class ProcessHandler:
 
@@ -99,9 +99,9 @@ class ProcessHandler:
         files = task.getFiles()
         command = task.getCommand(remoteBaseFolder)
 
-        ts = TimeStopper(initialTimestamp=task.timestamp)
+        tl = TimeLogger()
 
-        ts.stop() # serverStart
+        tl.appendData(time()) # server_start
 
         server = self.cloudHandler.retrieveServer()
         if(server == None):
@@ -113,16 +113,21 @@ class ProcessHandler:
             self.cloudHandler.releaseServer(server)
             return False
 
-        ts.stop() # serverUp
+        tl.appendData(time()) # script_upload
 
         self.ssh.uploadFiles(sshClient, files, localScriptsFolder, remoteBaseFolder)
-        self.ssh.executeCommand(sshClient, command)
 
-        ts.stop() # processingDone
+        tl.appendData(time()) # script_start
+
+        output = self.ssh.executeCommand(sshClient, command)
+
+        tl.appendData(output) # bash_log
+
+        tl.appendData(time()) # script_done
 
         self.ssh.disconnect(sshClient)
         self.cloudHandler.releaseServer(server)
 
-        ts.writeDataToCSV(self.applicationConfig.TIMETEST_CSV_FILE)
+        tl.writeDataToCSV(self.applicationConfig.TIMETEST_CSV_FILE)
         print 'end task: ' + task.id
         return True

@@ -3,9 +3,9 @@
 LC_NUMERIC=C
 
 #XNAT_CACERT_FILE="path"
-WORK_DIR="/home/ubuntu/work"
-ASSESTS_DIR="/home/ubuntu/assets"
-MATLAB_HOME="/opt/mcr/v82"
+#WORK_DIR="/home/ubuntu/work"
+#ASSESTS_DIR="/home/ubuntu/assets"
+#MATLAB_HOME="/opt/mcr/v82"
 
 err() {
     cd
@@ -87,6 +87,9 @@ cd ${session_folder}
 
 # get scan IDs from xnat image session
 echo ${XNAT_CACERT_FILE}
+
+LOG="$(date +%s)"
+
 curl ${XNAT_CACERT_FILE} -u ${user}:${pwd} "${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/scans?format=csv" > "scans.info"
 opt_scan=$(cat "scans.info" | grep "optScanData" | awk 'BEGIN {FS="," }{print $2}' | sed 's/"//; s/"//')
 op_scan=$(cat "scans.info" | grep "opScanData" | awk 'BEGIN {FS="," }{print $2}' | sed 's/"//; s/"//')
@@ -110,6 +113,7 @@ fi
 
 # download and unzip scans
 curl ${XNAT_CACERT_FILE} -O -u ${user}:${pwd} "${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/scans/${scans}/resources/DICOM/files?format=zip"
+
 unzip "files?format=zip"
 rm "files?format=zip"
 files=$(find "." -type f -name "*")
@@ -137,6 +141,8 @@ algorithms=$(find "${ASSETS_DIR}/executables" -type f -name "*.properties")
 
 # execute all algorithms with downloaded scans
 for i in ${algorithms}; do
+
+    LOG="$LOG $(date +%s)"
 
 	valid=true
 	algo_name=$(basename ${i} | sed 's/.\///' | awk 'BEGIN {FS="." } {print $1}')
@@ -188,7 +194,10 @@ for i in ${algorithms}; do
 
 	cd ${WORK_DIR}
 
+    LOG="$LOG $(date +%s)"
+
 	if [ -f ${algo_dcm} ]; then
+
 		assessor_name="dcm_${algo_name}${algo_version}"
 		assessor_url="${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}"
 
@@ -216,16 +225,18 @@ for i in ${algorithms}; do
 		# upload file to assessor
 		assessor_file_url="${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/assessors/${assessor_name}/resources/DICOM/files/${algo_name}_results.dcm"
 		curl ${XNAT_CACERT_FILE} -X PUT -u ${user}:${pwd} "${assessor_file_url}?format=DICOM&content=T1_RAW&inbody=true" --data-binary @"${algo_dcm}"
+
 	fi
 
 	if [ -f ${algo_txt} ]; then
+
 		for row in $(cat "${algo_txt}"); do
             key=$(echo ${row} | awk 'BEGIN {FS="=" } {print $1}')
             value=$(echo ${row} | awk 'BEGIN {FS="=" } {print $2}')
             type="qmroct:keyQualityIndicator"
 
             #Using printf to validate float value. If value is no valid float, the error message will be written into variable error. Otherwise it will be empty.
-	    error=$( { printf "%.8f\n" ${value} > /dev/null; } 2>&1 )
+	        error=$( { printf "%.8f\n" ${value} > /dev/null; } 2>&1 )
 
             if [ -z ${error} ]; then
                 value=$(printf "%.8f\n" ${value} | sed 's/\./%2E/')
@@ -236,11 +247,12 @@ for i in ${algorithms}; do
             curl ${XNAT_CACERT_FILE} -X PUT -u ${user}:${pwd} "${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/assessors/${key}${algo_version}?${type}/value=${value}&${type}/name=${key}&${type}/algorithm=${algo_name}&${type}/version=${algo_version}"
         done
 	fi
+
 done
+
+echo $LOG
 
 cd
 rm -r ${WORK_DIR}
-
-echo "{'status': 'success', 'content': 'done'}"
 
 exit 0

@@ -123,8 +123,6 @@ class ProcessHandler:
 
         tl.appendData(self._normalizeBashLog(output)) # bash_log
 
-        tl.appendData(time()) # script_done
-
         self.ssh.disconnect(sshClient)
         self.cloudHandler.releaseServer(server)
 

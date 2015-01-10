@@ -254,6 +254,9 @@ for i in ${algorithms}; do
 
 done
 
+TIME=$(date +%s)
+LOG="${LOG};${TIME}"
+
 echo "OUTPUTMARKER${LOG}OUTPUTMARKER"
 
 cd

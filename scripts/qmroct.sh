@@ -250,7 +250,7 @@ for i in ${algorithms}; do
 
 done
 
-echo $LOG >&2
+echo "OUTPUTMARKER${LOG}OUTPUTMARKER"
 
 cd
 rm -r ${WORK_DIR}

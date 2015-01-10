@@ -121,7 +121,7 @@ class ProcessHandler:
 
         output = self.ssh.executeCommand(sshClient, command)
 
-        tl.appendData(output) # bash_log
+        tl.appendData(output.split('OUTPUTMARKER')[1]) # bash_log
 
         tl.appendData(time()) # script_done
 

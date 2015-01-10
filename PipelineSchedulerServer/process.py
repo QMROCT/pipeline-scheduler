@@ -101,7 +101,7 @@ class ProcessHandler:
 
         tl = TimeLogger()
 
-        tl.appendData(time()) # server_start
+        #tl.appendData(time()) # server_start
 
         server = self.cloudHandler.retrieveServer()
         if(server == None):
@@ -113,17 +113,17 @@ class ProcessHandler:
             self.cloudHandler.releaseServer(server)
             return False
 
-        tl.appendData(time()) # script_upload
+        #tl.appendData(time()) # script_upload
 
         self.ssh.uploadFiles(sshClient, files, localScriptsFolder, remoteBaseFolder)
 
-        tl.appendData(time()) # script_start
+        #tl.appendData(time()) # script_start
 
         output = self.ssh.executeCommand(sshClient, command)
 
-        tl.appendData(output.split('OUTPUTMARKER')[1]) # bash_log
+        tl.appendData(self._normalizeBashLog(output)) # bash_log
 
-        tl.appendData(time()) # script_done
+        #tl.appendData(time()) # script_done
 
         self.ssh.disconnect(sshClient)
         self.cloudHandler.releaseServer(server)
@@ -131,3 +131,9 @@ class ProcessHandler:
         tl.writeDataToCSV(self.applicationConfig.TIMETEST_CSV_FILE)
         print 'end task: ' + task.id
         return True
+
+    def _normalizeBashLog(self, log):
+        for s in log:
+            s = str(s)
+            if s.find('OUTPUTMARKER') >= 0:
+                return s.split()[1]

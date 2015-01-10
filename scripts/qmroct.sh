@@ -160,7 +160,8 @@ for i in ${algorithms}; do
 		continue
 	fi
 
-	run="bash ${ASSETS_DIR}/executables/run_${algo_name}.sh ${MATLAB_HOME}"
+    cd ${ASSETS_DIR}/executables
+	run="bash run_${algo_name}.sh ${MATLAB_HOME}"
 
 	# check which parameters are needed to execute the algorithm
 	for row in $(cat ${i}); do

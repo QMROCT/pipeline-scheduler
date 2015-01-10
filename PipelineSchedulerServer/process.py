@@ -137,4 +137,4 @@ class ProcessHandler:
             s = s.encode("ascii")
             s = str(s)
             if s.find('OUTPUTMARKER') >= 0:
-                return s
+                return s.split('OUTPUTMARKER')[1]

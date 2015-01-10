@@ -253,7 +253,7 @@ for i in ${algorithms}; do
 
 done
 
-echo "OUTPUTMARKER ${LOG} OUTPUTMARKER"
+echo "OUTPUTMARKER${LOG}OUTPUTMARKER"
 
 cd
 rm -r ${WORK_DIR}

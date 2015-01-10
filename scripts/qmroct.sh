@@ -7,6 +7,8 @@ LC_NUMERIC=C
 #ASSESTS_DIR="/home/ubuntu/assets"
 #MATLAB_HOME="/opt/mcr/v82"
 
+echo $@ > ~/test.log
+
 err() {
     cd
 	[ ! -z ${WORK_DIR} ] && [ -d "${WORK_DIR}" ] && rm -r ${WORK_DIR}

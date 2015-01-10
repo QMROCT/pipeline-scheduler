@@ -88,7 +88,9 @@ cd ${session_folder}
 # get scan IDs from xnat image session
 echo ${XNAT_CACERT_FILE}
 
-LOG="$(date +%s)"
+LOG=""
+TIME=$(date +%s)
+LOG="${LOG} ${TIME}"
 
 curl ${XNAT_CACERT_FILE} -u ${user}:${pwd} "${host}/REST/projects/${project}/subjects/${subject}/experiments/${session}/scans?format=csv" > "scans.info"
 opt_scan=$(cat "scans.info" | grep "optScanData" | awk 'BEGIN {FS="," }{print $2}' | sed 's/"//; s/"//')
@@ -142,7 +144,8 @@ algorithms=$(find "${ASSETS_DIR}/executables" -type f -name "*.properties")
 # execute all algorithms with downloaded scans
 for i in ${algorithms}; do
 
-    LOG="$LOG $(date +%s)"
+    TIME=$(date +%s)
+    LOG="${LOG} ${TIME}"
 
 	valid=true
 	algo_name=$(basename ${i} | sed 's/.\///' | awk 'BEGIN {FS="." } {print $1}')
@@ -194,7 +197,8 @@ for i in ${algorithms}; do
 
 	cd ${WORK_DIR}
 
-    LOG="$LOG $(date +%s)"
+    TIME=$(date +%s)
+    LOG="${LOG} ${TIME}"
 
 	if [ -f ${algo_dcm} ]; then
 

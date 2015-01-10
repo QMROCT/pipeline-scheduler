@@ -66,7 +66,7 @@ class TimeLogger:
             f.write(s)
 
     def appendData(self, time):
-        self.data += time + " "
+        self.data += str(time) + " "
 
     def writeDataToCSV(self, filePath):
         if(filePath == None):

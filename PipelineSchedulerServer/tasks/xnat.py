@@ -16,6 +16,7 @@ class XNATPipeline(ATask):
         self.pwd = parameters.get('pwd')
         self.files = parameters.get('files')
         self.script = parameters.get('script')
+        self.options = parameters.get('options')
         self.id = str(uuid4())
         self.timestamp = time()
 
@@ -32,7 +33,7 @@ class XNATPipeline(ATask):
         return result
 
     def getCommand(self, remoteBaseFolder):
-        return 'bash ' + remoteBaseFolder + '/' + self.script + ' -project ' + self.project + ' -subject ' + self.subject + ' -session ' + self.session + ' -host ' + self.host + ' -user ' + self.user + ' -pwd ' + self.pwd
+        return 'bash ' + remoteBaseFolder + '/' + self.script + ' -project ' + self.project + ' -subject ' + self.subject + ' -session ' + self.session + ' -host ' + self.host + ' -user ' + self.user + ' -pwd ' + self.pwd + self.options
 
     def __dict__(self):
         return {'project': self.project, 'subject': self.subject, 'session': self.session, 'host': self.host, 'user': self.user, 'pwd': '***', 'id': self.id, 'timestamp': self.timestamp}

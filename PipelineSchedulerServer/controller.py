@@ -1,11 +1,13 @@
 __author__ = 'Christoph Jansen, HTW Berlin'
 
 from helper import loadConfigurationFile
+from helper import loadTokens
 from task import TaskHandler
 from process import ProcessHandler
 from cloud import CloudHandler
 from connectors.nova import Nova
 from ssh import SSH
+from apiauth import TokenAuthenticator
 import sys
 
 
@@ -35,6 +37,8 @@ class ApplicationController:
         self.taskHandler = TaskHandler(applicationConfig=applicationConfig)
         self.cloudHandler = CloudHandler(applicationConfig=applicationConfig, connector=connector)
         self.processHandler = ProcessHandler(applicationConfig=applicationConfig, taskHandler=self.taskHandler, cloudHandler=self.cloudHandler, ssh=ssh)
+
+        self.tokenAuthenticator = TokenAuthenticator(loadTokens())
 
         # remove existing virtual servers
         # self.cloudHandler.deleteServersUntracked()

@@ -36,3 +36,14 @@ def sourceFile(filePath):
         return False
 
     return True
+
+def loadTokens():
+    home = expanduser("~")
+    if home[-1:] == '\n':
+        home = home[:-1]
+    tokenPath = home + '/.pipeline-scheduler/tokens'
+    tokens = []
+    with open(tokenPath, 'r') as f:
+        for line in f:
+            tokens.append(line.rstrip())
+    return tokens

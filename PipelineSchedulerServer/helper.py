@@ -39,6 +39,7 @@ def sourceFile(filePath):
 
 def loadTokens():
     warning = 'WARNING: use file ~/.pipeline-scheduler/tokens to secure the api'
+    insecure = False
     home = expanduser("~")
     if home[-1:] == '\n':
         home = home[:-1]
@@ -49,7 +50,7 @@ def loadTokens():
             for line in f:
                 tokens.append(line.rstrip())
     except:
-        print(warning)
-    if not tokens:
+        insecure = True
+    if insecure or not tokens:
         print(warning)
     return tokens

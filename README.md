@@ -213,9 +213,22 @@ curl ${server}/config
 curl -X PUT ${server}/config
 ```
 
+### Secure Authentication
+
+A simple authentication mechanism using string tokens has been implemented and is able to secure the web api. In order to activate it, simply create the file ~/.pipeline-scheduler/tokens and add a password token to the first line of the file. When accessing the api send the authentication token as URL parameter (not JSON!) like so:
+
+```bash
+curl ${server}?token=YourAuthenticationToken
+```
+
+There can be several valid authetication tokens at a time, by adding them to the tokens file line by line.
+
+The Pipeline Scheduler needs to be restarted after adding or deleting tokens.
+
+Reminder: Always use TLS to secure the web api (for example by using an Apache Webserver with proper TLS configuration as proxy).
+
 ### Not yet implemented
 
-* Authentication token
 * Advanced error handling
 * Logging
 * Source code documentation

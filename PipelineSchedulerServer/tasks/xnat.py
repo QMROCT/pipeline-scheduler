@@ -16,9 +16,7 @@ class XNATPipeline(ATask):
         self.pwd = parameters.get('pwd')
         self.files = parameters.get('files')
         self.script = parameters.get('script')
-        if(self.script == None):
-            self.script = ''
-        self.options = parameters.get('options')
+        self.options = parameters.get('options', '')
         self.id = str(uuid4())
         self.timestamp = time()
 

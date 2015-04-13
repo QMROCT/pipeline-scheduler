@@ -231,5 +231,6 @@ Reminder: Always use TLS to secure the web api (for example by using an Apache W
 
 * Advanced error handling
 * Logging
+* Supporting multiple VM-Images for different Tasks
 * Source code documentation
 * More Web-API functions
